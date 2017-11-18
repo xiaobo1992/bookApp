@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class Book extends Component {
   state = {
-    book: {}
+    book: this.props.book
   }
 
   componentWillMount() {
@@ -23,11 +23,13 @@ class Book extends Component {
   }
 
   render() {
+    const imageUrl = this.state.book.imageLinks? this.state.book.imageLinks.thumbnail
+      : "http://via.placeholder.com/128x193?text=No%20Cover";
     return(
       <div className="book" >
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193,
-            backgroundImage: `url(${this.state.book.imageLinks.thumbnail})` }}></div>
+            backgroundImage: `url(${imageUrl})` }}></div>
           <div className="book-shelf-changer">
             <select value={this.state.book.shelf}
             onChange={event=>this.updateBook(this.state.book, event.target.value)}>
@@ -40,7 +42,9 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{this.state.book.title}</div>
-        <div className="book-authors">{this.state.book.authors}</div>
+        <div className="book-authors">
+          {this.state.book.authors ? this.state.book.authors.join(', ') : ''}
+        </div>
       </div>
     )
   }

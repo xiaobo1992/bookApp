@@ -8,16 +8,22 @@ class AddBooks extends Component {
 
   state = {
     books : [],
-    query : "",
   }
 
   updateQuery = (query) => {
-    this.setState({query: query.trim()})
-    BooksAPI.search(this.state.query, 20).then((books) => {
-      if (books) {
+    if (query.length === 0) {
+      this.setState({books:[]})
+      return;
+    }
+
+    BooksAPI.search(query.trim(), 20).then((books) => {
+      if (books && books.error === undefined) {
         this.setState({books:books})
+      } else {
+        this.setState({books:[]})
       }
     })
+
   }
 
   render() {
@@ -27,7 +33,6 @@ class AddBooks extends Component {
           <Link to="/" className="close-search" >Close</Link>
           <div className="search-books-input-wrapper">
             <input type="text" placeholder="Search by title or author"
-            value={this.props.query}
             onChange={event => this.updateQuery(event.target.value)}/>
           </div>
         </div>
