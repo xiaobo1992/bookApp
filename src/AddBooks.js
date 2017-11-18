@@ -11,7 +11,7 @@ class AddBooks extends Component {
   }
 
   updateQuery = (query) => {
-    if (query.length === 0) {
+    if (query.trim().length === 0) {
       this.setState({books:[]})
       return;
     }
